@@ -1,0 +1,2599 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0d14">
+<meta name="description" content="𝑳𝑷𝑯𝑵 — Profile · Le Pham Hai Nguyen">
+<title>Le Pham Hai Nguyen</title>
+
+<style>
+/* =========================================================
+   LPHN PERSONAL PROFILE
+   Single-file edition
+   No framework / no npm / no build step
+   ========================================================= */
+
+:root {
+    --bg: #070a10;
+    --bg-soft: #0c1018;
+    --surface: rgba(15, 19, 29, 0.84);
+    --surface-soft: rgba(255, 255, 255, 0.045);
+    --surface-hover: rgba(255, 255, 255, 0.075);
+    --text: #f4f6fb;
+    --text-soft: #c5cad5;
+    --muted: #8c95a6;
+    --muted-2: #687183;
+    --line: rgba(255,255,255,.085);
+    --line-strong: rgba(255,255,255,.14);
+    --accent: #b9c6ff;
+    --accent-soft: rgba(185,198,255,.12);
+    --success: #81d6a2;
+    --danger: #ff829d;
+    --warning: #e7c982;
+    --shadow: rgba(0,0,0,.5);
+    --radius-xl: 28px;
+    --radius-lg: 20px;
+    --radius-md: 15px;
+    --radius-sm: 11px;
+    --ease: cubic-bezier(.2,.8,.2,1);
+}
+
+body.light {
+    --bg: #edf0f6;
+    --bg-soft: #f7f8fb;
+    --surface: rgba(255,255,255,.84);
+    --surface-soft: rgba(20,30,50,.045);
+    --surface-hover: rgba(20,30,50,.075);
+    --text: #171b24;
+    --text-soft: #4f5665;
+    --muted: #727b8c;
+    --muted-2: #9ba2ae;
+    --line: rgba(20,30,50,.09);
+    --line-strong: rgba(20,30,50,.15);
+    --accent: #6374b2;
+    --accent-soft: rgba(99,116,178,.11);
+    --shadow: rgba(30,40,60,.18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Nunito", "Quicksand", "Segoe UI", sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    overflow-x: hidden;
+    transition:
+        background .35s ease,
+        color .35s ease;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    border: 0;
+}
+
+a {
+    color: inherit;
+}
+
+::selection {
+    background: var(--accent);
+    color: #11131a;
+}
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.bg {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    overflow: hidden;
+    background: #070a10;
+}
+
+.bg-image {
+    position: absolute;
+    inset: -2%;
+    background-image:
+        linear-gradient(
+            rgba(4,7,13,.42),
+            rgba(4,7,13,.68)
+        ),
+        url("https://i.pinimg.com/1200x/1f/f1/88/1ff1886a50a86b71cba0e577462eb430.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: saturate(.85);
+    transform: scale(1.025);
+    transition:
+        filter .5s ease,
+        transform 1.2s var(--ease);
+}
+
+.bg-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 20%,
+            rgba(0,0,0,.42) 100%
+        );
+}
+
+.bg-noise {
+    position: absolute;
+    inset: 0;
+    opacity: .035;
+    pointer-events: none;
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+}
+
+body.light .bg-image {
+    background-image:
+        linear-gradient(
+            rgba(243,245,250,.43),
+            rgba(236,239,246,.73)
+        ),
+        url("https://i.pinimg.com/1200x/1f/f1/88/1ff1886a50a86b71cba0e577462eb430.jpg");
+    filter: saturate(.72);
+}
+
+body.dim .bg-image {
+    filter: brightness(.58) saturate(.72);
+}
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+.app {
+    min-height: 100vh;
+    position: relative;
+}
+
+.page {
+    width: min(1160px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 74px 0 42px;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1160px, calc(100% - 32px));
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.topbar-left,
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+}
+
+.brand-mini {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--surface);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.brand-mini-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 13px rgba(129,214,162,.55);
+}
+
+.brand-mini-text {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .1em;
+}
+
+.tool-button {
+    width: 39px;
+    height: 39px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--text);
+    background: var(--surface);
+    backdrop-filter: blur(18px);
+    cursor: pointer;
+    box-shadow: 0 10px 30px var(--shadow);
+    transition:
+        transform .2s var(--ease),
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.tool-button:hover {
+    transform: translateY(-2px);
+    background: var(--surface-hover);
+    border-color: var(--line-strong);
+}
+
+.tool-button:active {
+    transform: translateY(0) scale(.97);
+}
+
+/* =========================================================
+   HERO CARD
+   ========================================================= */
+
+.profile-card {
+    width: 100%;
+    min-height: 570px;
+    display: grid;
+    grid-template-columns: 41.5% 58.5%;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    backdrop-filter: blur(26px);
+    -webkit-backdrop-filter: blur(26px);
+    box-shadow:
+        0 38px 100px var(--shadow),
+        0 0 80px rgba(120,140,255,.055);
+}
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            125deg,
+            rgba(255,255,255,.045),
+            transparent 31%
+        );
+}
+
+.profile-left {
+    position: relative;
+    padding: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-right: 1px solid var(--line);
+}
+
+.avatar-wrap {
+    width: 194px;
+    height: 194px;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,.075);
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.42),
+        0 0 40px rgba(160,180,255,.10);
+}
+
+.avatar-ring {
+    position: absolute;
+    inset: -8px;
+    border: 1px solid rgba(190,205,255,.2);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.avatar-ring::before,
+.avatar-ring::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.avatar-ring::before {
+    width: 5px;
+    height: 5px;
+    top: 16px;
+    left: 23px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+}
+
+.avatar-ring::after {
+    width: 4px;
+    height: 4px;
+    right: 20px;
+    bottom: 24px;
+    background: rgba(255,255,255,.75);
+}
+
+.avatar-status {
+    position: absolute;
+    right: 6px;
+    bottom: 10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 4px solid #11151f;
+    background: var(--success);
+    box-shadow: 0 0 16px rgba(129,214,162,.55);
+}
+
+.name {
+    margin: 0;
+    font-family: "Quicksand", "Nunito", sans-serif;
+    font-size: clamp(32px, 4vw, 40px);
+    line-height: 1;
+    letter-spacing: .08em;
+    font-weight: 700;
+}
+
+.role {
+    margin-top: 12px;
+    max-width: 320px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+    font-weight: 700;
+}
+
+.location {
+    margin-top: 18px;
+    color: var(--text-soft);
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.bio {
+    margin-top: 15px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.date {
+    margin-top: 6px;
+    color: var(--muted-2);
+    font-size: 12px;
+}
+
+.signature {
+    position: absolute;
+    left: 42px;
+    right: 42px;
+    bottom: 23px;
+    color: var(--muted-2);
+    font-size: 10px;
+    letter-spacing: .36em;
+}
+
+.profile-right {
+    min-width: 0;
+    padding: 39px 41px 27px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================================
+   SOCIAL GRID
+   ========================================================= */
+
+.social-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+}
+
+.social {
+    min-width: 0;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface-soft);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+    transition:
+        transform .2s var(--ease),
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.social:hover {
+    transform: translateY(-2px);
+    background: var(--accent-soft);
+    border-color: rgba(180,195,255,.25);
+}
+
+.social:active {
+    transform: translateY(0) scale(.99);
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    display: grid;
+    place-items: center;
+    color: var(--accent);
+}
+
+.social-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.social-label {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.social-meta {
+    margin-left: auto;
+    color: var(--muted-2);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.quick-button {
+    height: 37px;
+    padding: 0 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    color: var(--text-soft);
+    background: var(--surface-soft);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 800;
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s var(--ease);
+}
+
+.quick-button:hover {
+    color: var(--text);
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   MUSIC PLAYER
+   ========================================================= */
+
+.music-player {
+    margin-top: 16px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--surface-soft);
+}
+
+.music-main {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 12px;
+}
+
+.cover {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+}
+
+.track {
+    min-width: 0;
+}
+
+.track-title {
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.track-artist {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.player-button {
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+    background: transparent;
+    cursor: pointer;
+    transition:
+        background .2s ease,
+        transform .15s ease;
+}
+
+.player-button:hover {
+    background: var(--surface-hover);
+}
+
+.player-button:active {
+    transform: scale(.94);
+}
+
+.progress-wrap {
+    margin-top: 13px;
+}
+
+.progress {
+    width: 100%;
+    height: 4px;
+    display: block;
+    appearance: none;
+    border-radius: 20px;
+    background: rgba(255,255,255,.09);
+    cursor: pointer;
+}
+
+.progress::-webkit-slider-thumb {
+    appearance: none;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(185,198,255,.35);
+}
+
+.progress::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.time-row {
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted-2);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   LOWER INFO
+   ========================================================= */
+
+.info-row {
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+}
+
+.info-card {
+    min-width: 0;
+    padding: 13px 14px;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    background: var(--surface-soft);
+}
+
+.info-title {
+    color: var(--muted-2);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 900;
+}
+
+.info-value {
+    margin-top: 5px;
+    color: var(--text-soft);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.footer {
+    margin-top: auto;
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted-2);
+    font-size: 10px;
+}
+
+.clock {
+    font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(0,0,0,.58);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity .25s ease,
+        visibility .25s ease;
+}
+
+.modal.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.modal-box {
+    width: min(560px, 100%);
+    max-height: min(720px, 88vh);
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: var(--surface);
+    box-shadow: 0 35px 100px rgba(0,0,0,.48);
+    backdrop-filter: blur(25px);
+    transform: translateY(12px) scale(.98);
+    transition: transform .28s var(--ease);
+}
+
+.modal.open .modal-box {
+    transform: translateY(0) scale(1);
+}
+
+.modal-head {
+    padding: 18px 19px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.modal-close {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+    background: transparent;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-body p {
+    margin: 0 0 13px;
+    color: var(--text-soft);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.project-list {
+    display: grid;
+    gap: 9px;
+}
+
+.project-item {
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface-soft);
+    text-decoration: none;
+    transition:
+        background .2s ease,
+        transform .2s var(--ease);
+}
+
+.project-item:hover {
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+}
+
+.project-name {
+    font-weight: 900;
+    font-size: 13px;
+}
+
+.project-desc {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    z-index: 200;
+    padding: 10px 15px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--text);
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 50px var(--shadow);
+    font-size: 12px;
+    font-weight: 800;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 14px);
+    transition:
+        opacity .23s ease,
+        transform .23s var(--ease);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .profile-card {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-left {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 54px;
+    }
+
+    .profile-right {
+        min-height: 0;
+    }
+
+    .signature {
+        bottom: 22px;
+    }
+}
+
+@media (max-width: 620px) {
+
+    .page {
+        width: min(100% - 20px, 520px);
+        padding-top: 70px;
+    }
+
+    .topbar {
+        width: calc(100% - 20px);
+    }
+
+    .brand-mini {
+        padding: 8px 10px;
+    }
+
+    .profile-card {
+        border-radius: 23px;
+    }
+
+    .profile-left {
+        padding: 38px 22px 51px;
+    }
+
+    .profile-right {
+        padding: 23px 17px 21px;
+    }
+
+    .avatar-wrap {
+        width: 165px;
+        height: 165px;
+    }
+
+    .name {
+        font-size: 31px;
+    }
+
+    .role {
+        font-size: 13px;
+    }
+
+    .social-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-row {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .page {
+        width: calc(100% - 14px);
+    }
+
+    .profile-left {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .profile-right {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .music-main {
+        align-items: flex-start;
+    }
+
+    .player-actions {
+        gap: 3px;
+    }
+
+    .player-button {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* handcrafted profile refinements */
+.quiet-line{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:18px 0 15px;
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:.02em;
+}
+.quiet-line span:first-child{
+  color:var(--text);
+  font-size:15px;
+}
+.profile-strip{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin:0 0 18px;
+}
+.strip-item{
+  min-width:0;
+  padding:10px 11px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+  border-radius:12px;
+}
+.strip-label{
+  display:block;
+  margin-bottom:4px;
+  color:var(--muted);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+}
+.strip-value{
+  display:block;
+  overflow:hidden;
+  color:var(--text);
+  font-size:11px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.social-grid .social-card{
+  border-radius:13px;
+}
+@media (max-width:760px){
+  .profile-strip{grid-template-columns:1fr;}
+  .quiet-line{flex-wrap:wrap;}
+}
+
+
+/* LPHN wordmark */
+.lphn-wordmark{
+  font-family:"Quicksand","Nunito",sans-serif !important;
+  font-weight:700;
+  letter-spacing:.16em;
+  font-size:15px;
+  line-height:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+    <div class="bg-image"></div>
+    <div class="bg-vignette"></div>
+    <div class="bg-noise"></div>
+</div>
+
+<div class="app">
+
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <div class="brand-mini">
+
+            <span class="brand-mini-dot"></span>
+
+            <span class="brand-mini-text">
+                𝑳𝑷𝑯𝑵
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <button
+            class="tool-button"
+            id="dimButton"
+            title="Độ tối nền"
+            aria-label="Độ tối nền">
+            ◌
+        </button>
+
+        <button
+            class="tool-button"
+            id="themeButton"
+            title="Đổi sáng tối"
+            aria-label="Đổi sáng tối">
+            ◐
+        </button>
+
+        <button
+            class="tool-button"
+            id="shareButton"
+            title="Chia sẻ"
+            aria-label="Chia sẻ">
+            ↗
+        </button>
+
+    </div>
+
+</header>
+
+<main class="page">
+
+<section class="profile-card">
+
+    <div class="profile-left">
+
+        <div class="avatar-wrap">
+
+            <img
+                class="avatar"
+                src="https://i.pinimg.com/736x/12/f0/f8/12f0f8e57f35231bdbd38c645b785571.jpg"
+                alt="LPHN avatar"
+                draggable="false">
+
+            <div class="avatar-ring"></div>
+
+            <div
+                class="avatar-status"
+                title="Online">
+            </div>
+
+        </div>
+
+        <h1 class="name">
+            𝑳𝑷𝑯𝑵
+        </h1>
+
+        <div class="role">
+            Le Pham Hai Nguyen 
+        </div>
+
+        <div class="location">
+            Vietnam / SEA<br>
+            UTC+7
+        </div>
+
+        <div class="bio">
+            ⋆｡°✩
+        </div>
+
+        <div class="date">
+            LPHN - 18 / 07 / 2013
+        </div>
+
+        <div class="bio">
+            just building things
+        </div>
+
+        <div class="signature">
+            LPHN ─────────
+        </div>
+
+    </div>
+
+    <div class="profile-right">
+
+        
+        <div class="quiet-line">
+          <span>⋆｡°✩</span>
+          <span>18 / 07 / 2013</span>
+          <span>just building things</span>
+        </div>
+
+        <div class="profile-strip">
+          <div class="strip-item">
+            <span class="strip-label">currently</span>
+            <span class="strip-value">learning · coding</span>
+          </div>
+          <div class="strip-item">
+            <span class="strip-label">timezone</span>
+            <span class="strip-value">UTC+7</span>
+          </div>
+          <div class="strip-item">
+            <span class="strip-label">based in</span>
+            <span class="strip-value">Vietnam / SEA</span>
+          </div>
+        </div>
+
+<div class="social-grid">
+
+            <a
+                class="social"
+                href="https://discord.com/users/1491814561882574858"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                <span class="social-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19.54 5.03A16.3 16.3 0 0 0 15.4 3.75l-.5 1.02a14.8 14.8 0 0 0-4.8 0l-.5-1.02a16.3 16.3 0 0 0-4.14 1.28C2.84 8.87 2.13 12.63 2.48 16.34a16.5 16.5 0 0 0 5.07 2.57l1.23-1.66c-.67-.25-1.3-.56-1.9-.91l.46-.35c3.66 1.7 7.63 1.7 11.25 0l.47.35c-.6.35-1.24.66-1.91.91l1.23 1.66a16.5 16.5 0 0 0 5.07-2.57c.41-4.3-.7-8.02-3.41-11.31ZM8.73 14.62c-1.09 0-1.98-1-1.98-2.23s.87-2.23 1.98-2.23 2 .99 1.98 2.23c0 1.23-.88 2.23-1.98 2.23Zm6.54 0c-1.09 0-1.98-1-1.98-2.23s.87-2.23 1.98-2.23 1.98.99 1.98 2.23-.87 2.23-1.98 2.23Z"/>
+                    </svg>
+
+                </span>
+
+                <span class="social-label">
+                    Discord
+                </span>
+
+                <span class="social-meta">
+                    profile
+                </span>
+
+            </a>
+
+            <a
+                class="social"
+                href="https://www.facebook.com/profile.php?id=61578587513626&locale=vi_VN"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                <span class="social-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v8h4v-8h3l1-4h-4V9c0-.66.34-1 1-1Z"/>
+                    </svg>
+
+                </span>
+
+                <span class="social-label">
+                    Facebook
+                </span>
+
+                <span class="social-meta">
+                    social
+                </span>
+
+            </a>
+
+            <a
+                class="social"
+                href="https://www.instagram.com/nguyendzvcl187/"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                <span class="social-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A4.5 4.5 0 1 1 12 16.5a4.5 4.5 0 0 1 0-9Zm0 2A2.5 2.5 0 1 0 12 14.5 2.5 2.5 0 0 0 12 9.5Zm5.25-2.25a1.1 1.1 0 1 1-1.1 1.1 1.1 0 0 1 1.1-1.1Z"/>
+                    </svg>
+
+                </span>
+
+                <span class="social-label">
+                    Instagram
+                </span>
+
+                <span class="social-meta">
+                    social
+                </span>
+
+            </a>
+
+            <a
+                class="social"
+                href="https://www.threads.com/@nguyendzvcl187"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                <span class="social-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098c1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015c-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164c1.43 1.783 3.631 2.698 6.54 2.717c2.623-.02 4.358-.631 5.8-2.045c1.647-1.613 1.618-3.593 1.09-4.798c-.31-.71-.873-1.3-1.634-1.75c-.192 1.352-.622 2.446-1.284 3.272c-.886 1.102-2.14 1.704-3.73 1.79c-1.202.065-2.361-.218-3.259-.801c-1.063-.689-1.685-1.74-1.752-2.964c-.065-1.19.408-2.285 1.33-3.082c.88-.76 2.119-1.207 3.583-1.291a14 14 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757c-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32l-1.757-1.18c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388q.163.07.321.142c1.49.7 2.58 1.761 3.154 3.07c.797 1.82.871 4.79-1.548 7.158c-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69q-.362 0-.739.021c-1.836.103-2.98.946-2.916 2.143c.067 1.256 1.452 1.839 2.784 1.767c1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221"/>
+                    </svg>
+
+                </span>
+
+                <span class="social-label">
+                    Threads
+                </span>
+
+                <span class="social-meta">
+                    social
+                </span>
+
+            </a>
+
+            <a
+                class="social"
+                href="https://open.spotify.com/user/31vz4cf236wdqq5wgfyukcdxxsga"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                <span class="social-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0Zm5.48 17.31c-.22.36-.69.47-1.05.25-2.88-1.76-6.51-2.16-10.79-1.18a.76.76 0 1 1-.34-1.48c4.68-1.07 8.68-.61 11.93 1.38.36.22.47.69.25 1.03Zm1.5-3.34c-.27.44-.84.58-1.28.31-3.3-2.03-8.34-2.62-12.25-1.42a.95.95 0 1 1-.56-1.81c4.47-1.35 10.03-.7 13.83 1.63.44.27.58.84.31 1.29Zm.13-3.48C15.15 8.08 8.16 7.88 4.09 9.12a1.14 1.14 0 1 1-.66-2.18c4.67-1.42 12.16-1.14 16.78 1.6a1.14 1.14 0 1 1-1.16 1.95Z"/>
+                    </svg>
+
+                </span>
+
+                <span class="social-label">
+                    Spotify
+                </span>
+
+                <span class="social-meta">
+                    music
+                </span>
+
+            </a>
+
+            <a
+                class="social"
+                href="https://github.com/"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                <span class="social-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 .7A11.3 11.3 0 0 0 8.42 22.92c.57.1.78-.25.78-.55v-2.16c-3.17.69-3.84-1.35-3.84-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.67 1.24 3.32.95.1-.74.4-1.24.72-1.52-2.53-.29-5.19-1.27-5.19-5.64 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.03 0 0 .96-.31 3.14 1.17a10.8 10.8 0 0 1 5.72 0c2.18-1.48 3.14-1.17 3.14-1.17.62 1.58.23 2.74.11 3.03.73.8 1.18 1.82 1.18 3.07 0 4.38-2.66 5.35-5.2 5.63.41.36.77 1.07.77 2.16v3.2c0 .31.21.66.79.55A11.3 11.3 0 0 0 12 .7Z"/>
+                    </svg>
+
+                </span>
+
+                <span class="social-label">
+                    Projects
+                </span>
+
+                <span class="social-meta">
+                    github
+                </span>
+
+            </a>
+
+        </div>
+
+        <div class="quick-actions">
+
+            <button
+                class="quick-button"
+                id="aboutButton">
+                About
+            </button>
+
+            <button
+                class="quick-button"
+                id="projectsButton">
+                Projects
+            </button>
+
+            <button
+                class="quick-button"
+                id="copyButton">
+                Copy profile link
+            </button>
+
+        </div>
+
+        <div class="music-player">
+
+            <div class="music-main">
+
+                <img
+                    class="cover"
+                    src="https://i.pinimg.com/736x/ad/e9/9e/ade99e5e89cca0c3f656e7ce79fbc515.jpg"
+                    alt="Tìm Em">
+
+                <div class="track">
+
+                    <div class="track-title">
+                        Tìm Em
+                    </div>
+
+                    <div class="track-artist">
+                        Bài hát của Hngle · 2026
+                    </div>
+
+                </div>
+
+                <div class="player-actions">
+
+                    <button
+                        class="player-button"
+                        id="restartButton"
+                        title="Phát lại">
+                        ↻
+                    </button>
+
+                    <button
+                        class="player-button"
+                        id="muteButton"
+                        title="Tắt tiếng">
+                        ♪
+                    </button>
+
+                    <button
+                        class="player-button"
+                        id="playButton"
+                        title="Phát">
+                        ▶
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="progress-wrap">
+
+                <input
+                    class="progress"
+                    id="progress"
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    value="0"
+                    aria-label="Tiến trình bài hát">
+
+                <div class="time-row">
+
+                    <span id="currentTime">
+                        0:00
+                    </span>
+
+                    <span id="duration">
+                        0:00
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="info-row">
+
+            <div class="info-card">
+
+                <div class="info-title">
+                    Status
+                </div>
+
+                <div class="info-value">
+                    Building things
+                </div>
+
+            </div>
+
+            <div class="info-card">
+
+                <div class="info-title">
+                    Local time
+                </div>
+
+                <div
+                    class="info-value"
+                    id="miniClock">
+                    UTC+7
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+
+            <span>
+                LPHN / 2026
+            </span>
+
+            <span
+                class="clock"
+                id="clock">
+                UTC+7 --:--:--
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+<div
+    class="modal"
+    id="aboutModal"
+    aria-hidden="true">
+
+    <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true">
+
+        <div class="modal-head">
+
+            <div class="modal-title">
+                About LPHN
+            </div>
+
+            <button
+                class="modal-close"
+                data-close>
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <p>
+                Le Pham Hai Nguyen
+                Một góc nhỏ để lưu profile, project và những thứ
+                đang build.
+            </p>
+
+            <p>
+                Vietnam / SEA · UTC+7
+            </p>
+
+            <p>
+                ⋆｡°✩ just building things
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="modal"
+    id="projectsModal"
+    aria-hidden="true">
+
+    <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true">
+
+        <div class="modal-head">
+
+            <div class="modal-title">
+                Projects
+            </div>
+
+            <button
+                class="modal-close"
+                data-close>
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="project-list">
+
+                <a
+                    class="project-item"
+                    href="https://github.com/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    <div class="project-name">
+                        GitHub
+                    </div>
+
+                    <div class="project-desc">
+                        Code, experiments and projects.
+                    </div>
+
+                </a>
+
+                <div class="project-item">
+
+                    <div class="project-name">
+                        Personal Profile
+                    </div>
+
+                    <div class="project-desc">
+                        This website — single HTML profile,
+                        music player and lightweight interactions.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="toast"
+    id="toast"
+    role="status">
+</div>
+
+<audio
+    id="audio"
+    preload="metadata"
+    src="./music/song.mp3">
+</audio>
+
+<script>
+/* =========================================================
+   LPHN APP SCRIPT
+   ========================================================= */
+
+"use strict";
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const body = document.body;
+
+const themeButton =
+    document.getElementById("themeButton");
+
+const dimButton =
+    document.getElementById("dimButton");
+
+const shareButton =
+    document.getElementById("shareButton");
+
+const copyButton =
+    document.getElementById("copyButton");
+
+const aboutButton =
+    document.getElementById("aboutButton");
+
+const projectsButton =
+    document.getElementById("projectsButton");
+
+const aboutModal =
+    document.getElementById("aboutModal");
+
+const projectsModal =
+    document.getElementById("projectsModal");
+
+const toast =
+    document.getElementById("toast");
+
+const clock =
+    document.getElementById("clock");
+
+const miniClock =
+    document.getElementById("miniClock");
+
+const audio =
+    document.getElementById("audio");
+
+const playButton =
+    document.getElementById("playButton");
+
+const restartButton =
+    document.getElementById("restartButton");
+
+const muteButton =
+    document.getElementById("muteButton");
+
+const progress =
+    document.getElementById("progress");
+
+const currentTime =
+    document.getElementById("currentTime");
+
+const duration =
+    document.getElementById("duration");
+
+/* =========================================================
+   STORAGE KEYS
+   ========================================================= */
+
+const STORAGE_THEME =
+    "lphn_theme";
+
+const STORAGE_DIM =
+    "lphn_dim";
+
+const STORAGE_VOLUME =
+    "lphn_volume";
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer = null;
+
+function showToast(message) {
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2200);
+
+}
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function loadTheme() {
+
+    const saved =
+        localStorage.getItem(STORAGE_THEME);
+
+    if (saved === "light") {
+
+        body.classList.add("light");
+
+    }
+
+}
+
+function toggleTheme() {
+
+    body.classList.toggle("light");
+
+    const isLight =
+        body.classList.contains("light");
+
+    localStorage.setItem(
+        STORAGE_THEME,
+        isLight ? "light" : "dark"
+    );
+
+    showToast(
+        isLight
+            ? "Light mode"
+            : "Dark mode"
+    );
+
+}
+
+loadTheme();
+
+themeButton.addEventListener(
+    "click",
+    toggleTheme
+);
+
+/* =========================================================
+   DIM MODE
+   ========================================================= */
+
+function loadDim() {
+
+    const saved =
+        localStorage.getItem(STORAGE_DIM);
+
+    if (saved === "true") {
+
+        body.classList.add("dim");
+
+    }
+
+}
+
+function toggleDim() {
+
+    body.classList.toggle("dim");
+
+    const enabled =
+        body.classList.contains("dim");
+
+    localStorage.setItem(
+        STORAGE_DIM,
+        String(enabled)
+    );
+
+    showToast(
+        enabled
+            ? "Background darker"
+            : "Background restored"
+    );
+
+}
+
+loadDim();
+
+dimButton.addEventListener(
+    "click",
+    toggleDim
+);
+
+/* =========================================================
+   SHARE
+   ========================================================= */
+
+async function shareProfile() {
+
+    const url =
+        window.location.href;
+
+    const data = {
+
+        title: "𝑳𝑷𝑯𝑵",
+
+        text:
+            "𝑳𝑷𝑯𝑵",
+
+        url: url
+
+    };
+
+    try {
+
+        if (
+            navigator.share &&
+            typeof navigator.share === "function"
+        ) {
+
+            await navigator.share(data);
+
+            showToast("Đã mở chia sẻ");
+
+            return;
+
+        }
+
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(url);
+
+            showToast("Đã copy link profile");
+
+            return;
+
+        }
+
+        fallbackCopy(url);
+
+    } catch (error) {
+
+        if (
+            error &&
+            error.name === "AbortError"
+        ) {
+
+            return;
+
+        }
+
+        showToast("Không thể chia sẻ");
+
+    }
+
+}
+
+shareButton.addEventListener(
+    "click",
+    shareProfile
+);
+
+/* =========================================================
+   COPY
+   ========================================================= */
+
+async function copyProfile() {
+
+    const url =
+        window.location.href;
+
+    try {
+
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(url);
+
+            showToast("Đã copy profile link");
+
+            return;
+
+        }
+
+        fallbackCopy(url);
+
+    } catch {
+
+        fallbackCopy(url);
+
+    }
+
+}
+
+function fallbackCopy(text) {
+
+    const area =
+        document.createElement("textarea");
+
+    area.value = text;
+
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+
+    document.body.appendChild(area);
+
+    area.focus();
+
+    area.select();
+
+    try {
+
+        document.execCommand("copy");
+
+        showToast("Đã copy profile link");
+
+    } catch {
+
+        showToast("Copy không khả dụng");
+
+    }
+
+    area.remove();
+
+}
+
+copyButton.addEventListener(
+    "click",
+    copyProfile
+);
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+function openModal(modal) {
+
+    modal.classList.add("open");
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow = "hidden";
+
+}
+
+function closeModal(modal) {
+
+    modal.classList.remove("open");
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    if (
+        !aboutModal.classList.contains("open") &&
+        !projectsModal.classList.contains("open")
+    ) {
+
+        document.body.style.overflow = "";
+
+    }
+
+}
+
+aboutButton.addEventListener(
+    "click",
+    () => openModal(aboutModal)
+);
+
+projectsButton.addEventListener(
+    "click",
+    () => openModal(projectsModal)
+);
+
+document.querySelectorAll(
+    "[data-close]"
+).forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const modal =
+                button.closest(".modal");
+
+            if (modal) {
+
+                closeModal(modal);
+
+            }
+
+        }
+    );
+
+});
+
+document.querySelectorAll(
+    ".modal"
+).forEach(modal => {
+
+    modal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === modal
+            ) {
+
+                closeModal(modal);
+
+            }
+
+        }
+    );
+
+});
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            document.querySelectorAll(
+                ".modal.open"
+            ).forEach(modal => {
+
+                closeModal(modal);
+
+            });
+
+        }
+
+    }
+);
+
+/* =========================================================
+   CLOCK
+   ========================================================= */
+
+function getVietnamTime() {
+
+    return new Intl.DateTimeFormat(
+        "vi-VN",
+        {
+            timeZone: "Asia/Ho_Chi_Minh",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        }
+    ).format(
+        new Date()
+    );
+
+}
+
+function updateClock() {
+
+    const time =
+        getVietnamTime();
+
+    clock.textContent =
+        "UTC+7 " + time;
+
+    miniClock.textContent =
+        "UTC+7 · " + time;
+
+}
+
+updateClock();
+
+setInterval(
+    updateClock,
+    1000
+);
+
+/* =========================================================
+   MUSIC HELPERS
+   ========================================================= */
+
+function formatTime(value) {
+
+    if (
+        !Number.isFinite(value)
+    ) {
+
+        return "0:00";
+
+    }
+
+    const minutes =
+        Math.floor(value / 60);
+
+    const seconds =
+        Math.floor(value % 60)
+        .toString()
+        .padStart(2, "0");
+
+    return (
+        minutes +
+        ":" +
+        seconds
+    );
+
+}
+
+function updatePlayButton() {
+
+    if (audio.paused) {
+
+        playButton.textContent =
+            "▶";
+
+        playButton.title =
+            "Phát";
+
+    } else {
+
+        playButton.textContent =
+            "Ⅱ";
+
+        playButton.title =
+            "Tạm dừng";
+
+    }
+
+}
+
+function updateMuteButton() {
+
+    if (audio.muted) {
+
+        muteButton.textContent =
+            "×";
+
+        muteButton.title =
+            "Bật tiếng";
+
+    } else {
+
+        muteButton.textContent =
+            "♪";
+
+        muteButton.title =
+            "Tắt tiếng";
+
+    }
+
+}
+
+/* =========================================================
+   LOAD MUSIC SETTINGS
+   ========================================================= */
+
+function loadMusicSettings() {
+
+    const savedVolume =
+        localStorage.getItem(
+            STORAGE_VOLUME
+        );
+
+    if (
+        savedVolume !== null
+    ) {
+
+        const volume =
+            Number(savedVolume);
+
+        if (
+            Number.isFinite(volume) &&
+            volume >= 0 &&
+            volume <= 1
+        ) {
+
+            audio.volume =
+                volume;
+
+        }
+
+    } else {
+
+        audio.volume = .8;
+
+    }
+
+}
+
+loadMusicSettings();
+
+updatePlayButton();
+
+updateMuteButton();
+
+/* =========================================================
+   PLAY / PAUSE
+   ========================================================= */
+
+async function togglePlay() {
+
+    try {
+
+        if (audio.paused) {
+
+            await audio.play();
+
+        } else {
+
+            audio.pause();
+
+        }
+
+        updatePlayButton();
+
+    } catch (error) {
+
+        showToast(
+            "Không phát được nhạc — kiểm tra music/song.mp3"
+        );
+
+    }
+
+}
+
+playButton.addEventListener(
+    "click",
+    togglePlay
+);
+
+/* =========================================================
+   RESTART
+   ========================================================= */
+
+restartButton.addEventListener(
+    "click",
+    async () => {
+
+        audio.currentTime = 0;
+
+        try {
+
+            await audio.play();
+
+        } catch {
+
+            showToast(
+                "Bấm Play để bắt đầu nhạc"
+            );
+
+        }
+
+        updatePlayButton();
+
+    }
+);
+
+/* =========================================================
+   MUTE
+   ========================================================= */
+
+muteButton.addEventListener(
+    "click",
+    () => {
+
+        audio.muted =
+            !audio.muted;
+
+        updateMuteButton();
+
+    }
+);
+
+/* =========================================================
+   METADATA
+   ========================================================= */
+
+audio.addEventListener(
+    "loadedmetadata",
+    () => {
+
+        duration.textContent =
+            formatTime(
+                audio.duration
+            );
+
+    }
+);
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+audio.addEventListener(
+    "timeupdate",
+    () => {
+
+        if (
+            !Number.isFinite(
+                audio.duration
+            ) ||
+            audio.duration <= 0
+        ) {
+
+            return;
+
+        }
+
+        progress.value =
+            (
+                audio.currentTime /
+                audio.duration
+            ) * 100;
+
+        currentTime.textContent =
+            formatTime(
+                audio.currentTime
+            );
+
+    }
+);
+
+progress.addEventListener(
+    "input",
+    () => {
+
+        if (
+            !Number.isFinite(
+                audio.duration
+            ) ||
+            audio.duration <= 0
+        ) {
+
+            return;
+
+        }
+
+        audio.currentTime =
+            (
+                Number(progress.value) /
+                100
+            ) * audio.duration;
+
+    }
+);
+
+/* =========================================================
+   AUDIO EVENTS
+   ========================================================= */
+
+audio.addEventListener(
+    "play",
+    updatePlayButton
+);
+
+audio.addEventListener(
+    "pause",
+    updatePlayButton
+);
+
+audio.addEventListener(
+    "volumechange",
+    () => {
+
+        localStorage.setItem(
+            STORAGE_VOLUME,
+            String(audio.volume)
+        );
+
+        updateMuteButton();
+
+    }
+);
+
+audio.addEventListener(
+    "ended",
+    () => {
+
+        progress.value = 0;
+
+        currentTime.textContent =
+            "0:00";
+
+        updatePlayButton();
+
+    }
+);
+
+audio.addEventListener(
+    "error",
+    () => {
+
+        showToast(
+            "Không tìm thấy ./music/song.mp3"
+        );
+
+    }
+);
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        const tag =
+            event.target &&
+            event.target.tagName
+                ? event.target.tagName
+                : "";
+
+        if (
+            tag === "INPUT" ||
+            tag === "TEXTAREA"
+        ) {
+
+            return;
+
+        }
+
+        if (
+            event.code === "Space"
+        ) {
+
+            event.preventDefault();
+
+            togglePlay();
+
+        }
+
+        if (
+            event.key.toLowerCase() === "m"
+        ) {
+
+            audio.muted =
+                !audio.muted;
+
+            updateMuteButton();
+
+        }
+
+        if (
+            event.key === "ArrowLeft"
+        ) {
+
+            audio.currentTime =
+                Math.max(
+                    0,
+                    audio.currentTime - 5
+                );
+
+        }
+
+        if (
+            event.key === "ArrowRight"
+        ) {
+
+            audio.currentTime =
+                Math.min(
+                    audio.duration || 0,
+                    audio.currentTime + 5
+                );
+
+        }
+
+    }
+);
+
+/* =========================================================
+   PAGE VISIBILITY
+   ========================================================= */
+
+let wasPlaying =
+    false;
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if (
+            document.hidden
+        ) {
+
+            wasPlaying =
+                !audio.paused;
+
+        }
+
+    }
+);
+
+/* =========================================================
+   IMAGE SAFETY
+   ========================================================= */
+
+document.querySelectorAll(
+    "img"
+).forEach(image => {
+
+    image.addEventListener(
+        "contextmenu",
+        event => {
+            event.preventDefault();
+        }
+    );
+
+});
+
+/* =========================================================
+   SIMPLE PARALLAX
+   ========================================================= */
+
+const bgImage =
+    document.querySelector(
+        ".bg-image"
+    );
+
+let parallaxEnabled =
+    window.matchMedia(
+        "(prefers-reduced-motion: no-preference)"
+    ).matches;
+
+if (parallaxEnabled) {
+
+    window.addEventListener(
+        "pointermove",
+        event => {
+
+            const x =
+                (
+                    event.clientX /
+                    window.innerWidth
+                ) - .5;
+
+            const y =
+                (
+                    event.clientY /
+                    window.innerHeight
+                ) - .5;
+
+            bgImage.style.transform =
+                "scale(1.035) translate(" +
+                (x * -5) +
+                "px, " +
+                (y * -5) +
+                "px)";
+
+        },
+        {
+            passive: true
+        }
+    );
+
+}
+
+/* =========================================================
+   PREVENT ACCIDENTAL DRAG
+   ========================================================= */
+
+document.addEventListener(
+    "dragstart",
+    event => {
+
+        if (
+            event.target.tagName === "IMG"
+        ) {
+
+            event.preventDefault();
+
+        }
+
+    }
+);
+
+/* =========================================================
+   INITIAL STATE
+   ========================================================= */
+
+function initialize() {
+
+    updateClock();
+
+    updatePlayButton();
+
+    updateMuteButton();
+
+}
+
+initialize();
+
+/* =========================================================
+   END
+   ========================================================= */
+
+/* tiny handcrafted interactions */
+document.querySelectorAll('.social-card').forEach((card, index) => {
+  card.style.setProperty('--enter-delay', `${index * 45}ms`);
+});
+
+</script>
+
+</body>
+</html>
